@@ -5,6 +5,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.davidgayer.poznavacka.model.Category;
 
+
 @RepositoryRestResource(collectionResourceRel = "category", path = "category")
 public interface CategoryRepository extends JpaRepository<Category, Long>{
+    Category findByName(String name);
 }

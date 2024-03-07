@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/DawningofaNewDay-Regular.ttf}" />    
+    <style>
+        .dawningfont {
+            font-family: "Dawning of a New Day", cursive;
+            font-size: 70px;
+        }
+        .dawningfont a {
+        text-decoration: none;}
+        .form-container {
+            max-width: 300px; /* Adjust the width as needed */
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc; /* Add border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+        }
+    </style>
+    <title>Nový Obrázek</title>
+</head>
+
+<body class="w3-gray">
+    <header class="w3-container w3-light-gray w3-bottombar">
+        <h1 class="dawningfont"><a th:href="@{/}">Poznávačka</a></h1>
+    </header>
+
+    <div class="w3-bar w3-dark-grey w3-margin-bottom">
+        <a th:href="@{/}" class="w3-bar-item w3-button" >Domů</a>
+        <div class="w3-dropdown-hover">
+          <button class="w3-button">Správa</button>
+          <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a th:href="@{/picture/save}" class="w3-bar-item w3-button w3-modal-content">Přidat Obrázek</a>
+            <a th:href="@{/category/save}" class="w3-bar-item w3-button">Přidat Kategorii</a>
+          </div>
+        </div>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button">Kategorie</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a th:each="category : ${categories}" th:href="@{|/category/${category.id}|}" th:text="${category.name}" class="w3-bar-item w3-button">Kategorie</a>
+            </div>
+          </div>
+      </div>
+    <main class="w3-gray">
+    <div class="form-container w3-center w3-light-gray">
+        <h2>Nový Obrázek</h2>
+        <form method="post" th:object="${picture}" th:action="@{/savePicture}" class="w3-input w3-border w3-margin-bottom w3-round">
+
+        <input type="text" placeholder="Jméno" th:field="*{name}" class="w3-input w3-border w3-round-small w3-margin-bottom w3-round">
+
+        <input type="text" placeholder="Latinské jméno" th:field="*{latinName}" class="w3-input w3-border w3-round-small w3-margin-bottom w3-round">
+
+        <input type="text" placeholder="Url obrázku" th:field="*{imageUrl}" class="w3-input w3-border w3-round-small w3-margin-bottom w3-round">
+
+        <textarea placeholder="Popis" th:field="*{description}" class="w3-input w3-border w3-round-small w3-margin-bottom w3-round"></textarea>
+
+        <select th:field="*{category}" class="w3-select w3-border w3-round w3-text-gray w3-margin-bottom">
+            <option value="" disabled selected hidden>Kategorie</option>
+            <option value="" style="display: none;">Kategorie</option> <!-- Dummy option for placeholder -->
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" class="w3-text-black"></option>
+        </select>
+
+        <!-- <input type="text" placeholder="kategorie" th:field="*{category}"> -->
+        
+        <input type="submit" placeholder="submit" class="w3-button w3-dark-gray w3-medium w3-border-black w3-block w3-round">
+    </form>
+    </div>
+    
+</main>
+<footer class="w3-container w3-light-gray w3-topbar w3-bottom">
+    © David Gayer 2024
+</footer>
+</body>
+
+</html>

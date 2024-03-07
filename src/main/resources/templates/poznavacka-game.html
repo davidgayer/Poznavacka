@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-highway.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/DawningofaNewDay-Regular.ttf}" />
+    <link rel="stylesheet" href="css" th:href="@{/poznavacka-game-stylesheet.css}">
+    
+    <title>Poznávačka</title>
+</head>
+
+<body class="w3-gray ">
+    <header class="w3-container w3-light-gray w3-bottombar">
+        <h1 class="dawningfont"><a th:href="@{/}">Poznávačka</a></h1>
+    </header>
+    <div class="w3-bar w3-dark-grey">
+        <a th:href="@{/}" class="w3-bar-item w3-button">Domů</a>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button">Správa</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a th:href="@{/picture/save}" class="w3-bar-item w3-button w3-modal-content">Přidat Obrázek</a>
+                <a th:href="@{/category/save}" class="w3-bar-item w3-button">Přidat Kategorii</a>
+            </div>
+        </div>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button">Kategorie</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a th:each="category : ${categories}" th:href="@{|/category/${category.id}|}" th:text="${category.name}"
+                    class="w3-bar-item w3-button">Kategorie</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="w3-container w3-gray w3-padding-large" style="overflow: hidden;">
+        <!-- Card container -->
+        <div class="card-container flipped" id="card-container">
+            <!-- Each pair of front and back sides is grouped in a "slide" div -->
+            <div th:each="picture: ${categoryPictures}" class="slide">
+
+                <!-- Front side -->
+                <div class="w3-display-container front">
+                    <div class="w3-content w3-center custom-border">
+                        <img th:src="${picture.imageUrl}" class="w3-border-black w3-round"
+                            style="width:650px; height: 400px; border: solid rgb(29, 26, 26) 1px;">
+                    </div>
+                </div>
+
+                <!-- Back side -->
+                <div class="w3-display-container back">
+                    <div class="w3-content w3-center custom-border" style="width:650px;">
+                        <table class="w3-table-all w3-centered">
+                            <tr>
+                                <td th:text="${picture.name}" class="unflip-text"></td>
+                            </tr>
+                            <tr>
+                                <td th:text="${picture.latinName}" class="unflip-text"></td>
+                            </tr>
+                            <tr>
+                                <td><pre th:text="${picture.description}" class="unflip-text"></pre></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons and progress bar container -->
+            <div class="buttons-container">
+                <div class="w3-padding w3-center unflip-text">
+                    <button onclick="plusDivs(-1)" class="w3-button w3-light-grey w3-round">❮
+                        Prev</button>
+                    <button onclick="reveal()"
+                        class="w3-button w3-black w3-margin-left w3-margin-right w3-light-grey w3-round">Reveal</button>
+                    <button onclick="plusDivs(1), move()" class="w3-button w3-light-grey w3-round">Next ❯</button>
+                </div>
+
+                <div class="w3-dark-grey unflip-text" style="width:600px; margin-left: 30px;">
+                    <div id="myBar" class="w3-green" style="height:24px;width:0%;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function reveal() {
+            // Get the current slide
+            var currentSlide = document.getElementsByClassName("slide")[slideIndex - 1];
+            // Toggle the 'flipped' class on the current slide
+            currentSlide.classList.toggle('flipped');
+        }
+
+        var slideIndex = 0; // Initialize to 1
+        carousel();
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("slide");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+                // Ensure that the 'flipped' class is removed when changing slides
+                x[i].classList.remove('flipped');
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("slide"); // Changed from "mySlides" to "slide"
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > x.length) { slideIndex = 1 }
+            x[slideIndex - 1].style.display = "block";
+        }
+
+        function move() {
+            var elem = document.getElementById("myBar");
+            var pictures = document.getElementsByClassName("slide"); // Correct class name
+            var width = ((slideIndex - 1) / (pictures.length - 1)) * 100;
+            if (width > 100) {
+                width = 100;
+            }
+            elem.style.width = width + '%';
+        }
+    </script>
+    <footer class="w3-container w3-light-gray w3-topbar w3-bottom">
+        © David Gayer 2024
+    </footer>
+</body>
+
+</html>

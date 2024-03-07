@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-highway.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/DawningofaNewDay-Regular.ttf}" />
+
+    <style>
+        .dawningfont {
+            font-family: "Dawning of a New Day", cursive;
+            font-size: 70px;
+            text-decoration: none;
+        }
+
+        .dawningfont a {
+            text-decoration: none;
+        }        
+    </style>
+    <title>Poznávačka</title>
+</head>
+
+<body class="full-height-page w3-gray">
+    <header class="w3-container blue w3-light-gray">
+        <h1 class="dawningfont"><a th:href="@{/}">Poznávačka</a></h1>
+    </header>
+    <div class="w3-bar w3-dark-gray w3-topbar">
+        <button th:href="@{/}" class="w3-bar-item w3-button button">Domů</button>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button">Správa</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a th:href="@{/picture/save}" class="w3-bar-item w3-button w3-modal-content">Přidat Obrázek</a>
+                <a th:href="@{/category/save}" class="w3-bar-item w3-button">Přidat Kategorii</a>
+            </div>
+        </div>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button">Kategorie</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a th:each="category : ${categories}" th:href="@{|/category/${category.id}|}" th:text="${category.name}"
+                    class="w3-bar-item w3-button">Kategorie</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="w3-container w3-gray" style="padding: 56px;">
+        <!-- Slideshow container -->
+        <div class="w3-content w3-center">
+
+            <!-- Slideshow images -->
+            <div th:each="picture: ${pictures}" class="w3-display-container mySlides">
+                <img th:src="${picture.imageUrl}" class="w3-hover-opacity w3-border-black w3-round style="
+                    style="width:650px; height: 400px;">
+            </div>
+        </div>
+        <!-- Slideshow script -->
+        <script>
+            var slideIndex = 0;
+            carousel();
+
+            function plusDivs(n) {
+                showDivs(slideIndex += n);
+            }
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                if (n > x.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = x.length }
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                x[slideIndex - 1].style.display = "block";
+            }
+
+            function carousel() {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > x.length) { slideIndex = 1 }
+                x[slideIndex - 1].style.display = "block";
+                setTimeout(carousel, 2000); // Change image every 2 seconds
+            }
+        </script>
+    </main>
+
+    <footer class="w3-container w3-light-gray w3-topbar w3-bottom" style="border-top: #8cb9bd solid 2px;">
+        © David Gayer 2024
+    </footer>
+</body>
+
+</html>
